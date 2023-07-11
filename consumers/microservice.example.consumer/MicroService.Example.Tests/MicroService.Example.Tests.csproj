@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MassTransit.TestFramework" Version="8.0.16" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\contracts\MicroService.Contracts\MicroService.Contracts.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Consumer\MicroService.Example.Consumer.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Domain\MicroService.Example.Domain.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Mappers\MicroService.Example.Mappers.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Orchestration\MicroService.Example.Orchestration.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Resolver\MicroService.Example.Resolver.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Services\MicroService.Example.Services.csproj" />
+  </ItemGroup>
+
+</Project>

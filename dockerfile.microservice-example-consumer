@@ -1,0 +1,33 @@
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+
+FROM mcr.microsoft.com/dotnet/runtime:6.0-jammy AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy AS build
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+WORKDIR /src
+COPY ["contracts/MicroService.Contracts/MicroService.Contracts.csproj", "MicroService.Contracts/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Consumer/MicroService.Example.Consumer.csproj", "MicroService.Example.Consumer/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Domain/MicroService.Example.Domain.csproj", "MicroService.Example.Domain/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Mappers/MicroService.Example.Mappers.csproj", "MicroService.Example.Mappers/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Orchestration/MicroService.Example.Orchestration.csproj", "MicroService.Example.Orchestration/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Resolver/MicroService.Example.Resolver.csproj", "MicroService.Example.Resolver/"]
+COPY ["consumers/microservice.example.consumer/MicroService.Example.Services/MicroService.Example.Services.csproj", "MicroService.Example.Services/"]
+RUN dotnet restore "MicroService.Example.Consumer/MicroService.Example.Consumer.csproj" /p:PackageSource=${PACKAGE_CONFIG}
+COPY contracts/. .
+COPY consumers/microservice.example.consumer/. .
+
+WORKDIR /src/MicroService.Example.Consumer
+RUN dotnet build "MicroService.Example.Consumer.csproj" -c ${BUILD_CONFIG} -o /app/build /p:PackageSource=${PACKAGE_CONFIG};UseAppHost=false
+
+FROM build AS publish
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+RUN dotnet publish "MicroService.Example.Consumer.csproj" -c ${BUILD_CONFIG} -o /app/publish /p:PackageSource=${PACKAGE_CONFIG}
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MicroService.Example.Consumer.dll"]
