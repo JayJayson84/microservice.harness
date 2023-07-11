@@ -1,0 +1,84 @@
+{
+    "rabbit_version": "3.11.16",
+    "users": [
+        {
+            "name": "admin",
+            "password_hash": "4H59BFxL5B56AqYeYQS2S0DrN5jrhCz5ro5Fhkdfvr1O/XDr",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "portal",
+            "password_hash": "4H59BFxL5B56AqYeYQS2S0DrN5jrhCz5ro5Fhkdfvr1O/XDr",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ]
+        },
+        {
+            "name": "broker",
+            "password_hash": "EsOiVHMvjLhZHKGXyllL2qMdEtcKaG1xxBhTc1xUsZIaMr3S",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ]
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "/"
+        },
+        {
+            "name": "portal"
+        },
+        {
+            "name": "broker"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "admin",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "admin",
+            "vhost": "portal",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "admin",
+            "vhost": "broker",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "portal",
+            "vhost": "portal",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "broker",
+            "vhost": "broker",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }
+    ],
+    "topic_permissions": [],
+    "parameters": [],
+    "global_parameters": [],
+    "policies": [],
+    "queues": [],
+    "exchanges": [],
+    "bindings": []
+}
