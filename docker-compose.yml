@@ -1,0 +1,75 @@
+version: "3.8"
+
+volumes:
+  vsdbg:
+
+networks:
+  microservice.net:
+    driver: bridge
+
+services:
+
+  # RabbitMQ
+  rabbitmq:
+    image: microservice.rabbitmq:debug
+    container_name: microservice.rabbitmq-debug
+    build:
+      context: ./services/rabbitmq
+      dockerfile: Dockerfile
+    networks:
+      - microservice.net
+    ports:
+      - "127.0.0.1:9072:5672"
+      - "127.0.0.1:9672:15672"
+
+  # Consumer
+  microservice.example.consumer:
+    image: microservice.example.consumer:debug
+    container_name: microservice.example.consumer-debug
+    build:
+      dockerfile: dockerfile.microservice-example-consumer
+      network: host
+      args:
+        BUILD_CONFIG: ${BUILD_CONFIG}
+        PACKAGE_CONFIG: ${PACKAGE_CONFIG}
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservice.net
+    volumes:
+      - vsdbg:/remote_debugger:ro
+
+  # Producer
+  microservice.example.producer:
+    image: microservice.example.producer:debug
+    container_name: microservice.example.producer-debug
+    build:
+      dockerfile: dockerfile.microservice-example-producer
+      network: host
+      args:
+        BUILD_CONFIG: ${BUILD_CONFIG}
+        PACKAGE_CONFIG: ${PACKAGE_CONFIG}
+    depends_on:
+      - microservice.example.consumer
+    networks:
+      - microservice.net
+    ports:
+      - "127.0.0.1:5080:80"
+    volumes:
+      - vsdbg:/remote_debugger:ro
+
+  # VS Debugger
+  # ================================================
+  # 1. docker-compose build install.vsdbg --no-cache
+  # 2. docker-compose up install.vsdbg
+  # ================================================
+  install.vsdbg:
+    image: alpine:latest
+    container_name: microservice.vsdbg
+    volumes:
+      - vsdbg:/vsdbg:rw
+    command: >-
+      /bin/sh -c "wget https://aka.ms/getvsdbgsh -O - 2>/dev/null | /bin/sh /dev/stdin -v latest -r linux-x64 -l /vsdbg && chmod 777 /vsdbg/vsdbg"
+    network_mode: host
+    profiles:
+      - "setup"
