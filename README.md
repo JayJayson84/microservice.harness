@@ -78,7 +78,7 @@ If the Docker Daemon fails to start you can try checking for and killing existin
 1. Run through the following commands. These should only need to be done once.  
 <sub><ins>Run in a VSCode Terminal scoped to the root of the repository</ins></sub>  
 <sub>Install the required vsdbg storage for the debugger to attach to.</sub>  
-<code>docker-compose up install-vsdbg</code>
+<code>docker-compose up install.vsdbg</code>
 
 ## Debug from VSCode
 1. Load the project in VSCode.
