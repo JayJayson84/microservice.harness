@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Docker Example-Consumer",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}/consumers/microservice.example.consumer"
+            },
+            "netCore": {
+                "debuggerPath": "/remote_debugger/vsdbg"
+            },
+            "logging": {
+                "moduleLoad": false
+            },
+            "containerName": "microservice.example.consumer-debug",
+            "preLaunchTask": "compose-up-example-consumer-dev",
+            "postDebugTask": "compose-stop-example-consumer-dev"
+        },
+        {
+            "name": "Docker Example-Producer",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}/producers/microservice.example.producer"
+            },
+            "netCore": {
+                "debuggerPath": "/remote_debugger/vsdbg"
+            },
+            "logging": {
+                "moduleLoad": false
+            },
+            "containerName": "microservice.example.producer-debug",
+            "preLaunchTask": "compose-up-example-producer-dev",
+            "postDebugTask": "compose-stop-example-producer-dev"
+        }
+    ]
+}
