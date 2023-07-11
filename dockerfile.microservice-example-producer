@@ -1,0 +1,33 @@
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy AS build
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+WORKDIR /src
+COPY ["contracts/MicroService.Contracts/MicroService.Contracts.csproj", "MicroService.Contracts/"]
+COPY ["producers/microservice.example.producer/MicroService.Example.Producer/MicroService.Example.Producer.csproj", "MicroService.Example.Producer/"]
+COPY ["producers/microservice.example.producer/MicroService.Example.Resolver/MicroService.Example.Resolver.csproj", "MicroService.Example.Resolver/"]
+RUN dotnet restore "MicroService.Example.Producer/MicroService.Example.Producer.csproj" /p:PackageSource=${PACKAGE_CONFIG}
+COPY contracts/. .
+COPY producers/microservice.example.producer/. .
+
+WORKDIR /src/MicroService.Example.Producer
+RUN dotnet build "MicroService.Example.Producer.csproj" -c ${BUILD_CONFIG} -o /app/build /p:PackageSource=${PACKAGE_CONFIG};UseAppHost=false
+
+FROM build AS publish
+ARG BUILD_CONFIG
+ARG PACKAGE_CONFIG
+RUN dotnet publish "MicroService.Example.Producer.csproj" -c ${BUILD_CONFIG} -o /app/publish /p:PackageSource=${PACKAGE_CONFIG}
+
+FROM base AS final
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MicroService.Example.Producer.dll"]

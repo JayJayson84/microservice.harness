@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="MassTransit" Version="8.0.15" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MicroService.Example.Mappers\MicroService.Example.Mappers.csproj" />
+    <ProjectReference Include="..\MicroService.Example.Resolver\MicroService.Example.Resolver.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(PackageSource)'!='Docker' AND '$(PackageSource)'!='Nuget'">
+    <ProjectReference Include="..\..\..\contracts\MicroService.Contracts\MicroService.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(PackageSource)'=='Docker'">
+    <ProjectReference Include="..\MicroService.Contracts\MicroService.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(PackageSource)'=='Nuget'">
+    <!-- Nuget Package Sources -->
+  </ItemGroup>
+
+</Project>

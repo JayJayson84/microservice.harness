@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "compose-up-example-consumer-dev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "docker-compose -f docker-compose.yml up -d --build microservice.example.consumer",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "shell",
+            "label": "compose-stop-example-consumer-dev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "docker-compose -f docker-compose.yml stop microservice.example.consumer",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "compose-up-example-producer-dev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "docker-compose -f docker-compose.yml up -d --build microservice.example.producer",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "shell",
+            "label": "compose-stop-example-producer-dev",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "docker-compose -f docker-compose.yml stop microservice.example.producer",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}
