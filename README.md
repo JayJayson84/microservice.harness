@@ -45,6 +45,7 @@ These should be installed/configured if they are not already.
    Note: Expand the Assets accordion of the latest Docker CLI release to find the exe.
 1. Create the directory `C:\bin` and copy the exe into it.
 1. Linux WSL will keep taking all the system memory. To limit this create the following file:
+
 C:\bin\.wslconfig
 ```
 # Settings apply across all Linux distros running on WSL 2
@@ -52,7 +53,7 @@ C:\bin\.wslconfig
 memory=12GB
 ```
 ## Install Docker & Docker Compose on Ubuntu
-1. Open the Ubuntu on Windows application from the start menu.
+1. Open the **Ubuntu on Windows** application from the start menu.
 2. Install Docker (run each of the following commands in turn):
 ```
 # sudo apt-get update
