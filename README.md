@@ -6,19 +6,21 @@
 - Docker / Docker Compose
 
 ## Important note about Security
-Be mindful that this is an example project and contains logins for RabbitMQ that are public. If you adapt this project for you own use make sure to generate your own logins in place of the existing ones:
-1. Update the **name** and **password_hash** for each user in `services/rabbitmq/config/definitions.json`.
+Be mindful that this is an example project and contains logins for RabbitMQ that are public. If you adapt this project for your own use make sure to generate unique logins by following these steps:
+1. Update the **name** and **password_hash** (see below) for each user in `services/rabbitmq/config/definitions.json`.
 1. Update the RabbitMQ host login in the resolver files:
    - `consumers/microservice.example.consumer/MicroService.Example.Resolver/Resolvers/MessageBrokerResolver.cs`
    - `producers/microservice.example.producer/MicroService.Example.Resolver/Resolvers/MessageBrokerResolver.cs`  
    NOTE: It is strongly recommended not to hardcode the username and password into these files and instead to implement a secure credential manager which is currently out of the scope of this example project.
-1. You can generate a RabbitMQ password hash by:
-   1. Install the Docker plugin for VSCode.
-   1. In the Docker menu, Right-Click and Start the `masstransit-rabbitmq-debug` container.
-   1. Once started, Right-Click it again and `Attach Shell`.
-   1. In the terminal window that opens, enter the command: `rabbitmqctl hash_password <your_unencrypted_password>`.
-   1. Overwrite the relevant password hash in `services/rabbitmq/config/definitions.json` with the response of the above command.
+```
+Generate a RabbitMQ password hash:
 
+1. Install the Docker plugin for VSCode.
+2. In the Docker menu, Right-Click and Start the 'masstransit-rabbitmq-debug' container.
+3. Once started, Right-Click it again and 'Attach Shell'.
+4. In the terminal window that opens, enter the command: rabbitmqctl hash_password <your_unencrypted_password>
+5. The password hash will be written to the output window for you to copy.
+```
 ## Prerequisites
 These should be installed/configured if they are not already.
 1.	Install the [Linux kernel update package](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
