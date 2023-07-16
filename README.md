@@ -46,7 +46,7 @@ These should be installed/configured if they are not already.
 1. Create the directory `C:\bin` and copy the exe into it.
 1. Linux WSL will keep taking all the system memory. To limit this create the following file:
 
-C:\bin\.wslconfig
+> C:\bin\\.wslconfig
 ```
 # Settings apply across all Linux distros running on WSL 2
 [wsl2]
